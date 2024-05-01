@@ -10,6 +10,8 @@ package com.mycompany.projetopi.classes;
  */
 public class Cliente {
 
+    
+    private int Id;
     private String Nome;
     private String Email;
     private int DtNasc;
@@ -17,6 +19,15 @@ public class Cliente {
     private int Tel;
     private int Sexo;
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+
+    
     public String getNome() {
         return Nome;
     }

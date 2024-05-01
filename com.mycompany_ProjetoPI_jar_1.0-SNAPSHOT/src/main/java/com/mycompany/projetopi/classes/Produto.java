@@ -10,11 +10,21 @@ package com.mycompany.projetopi.classes;
  */
 public class Produto {
 
-   private String Produto;
-   private double Preco;
-   private int qtd;
+    private int Id;
+    private String Produto;
+    private double Preco;
+    private int qtd;
+
     public String getProduto() {
         return Produto;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
     }
 
     public void setProduto(String Produto) {

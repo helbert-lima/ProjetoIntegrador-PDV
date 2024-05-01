@@ -4,9 +4,12 @@
  */
 package com.mycompany.projetopi.utils;
 
+import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
@@ -25,42 +28,41 @@ public class Validador {
             if (objValidar.getText().strip().equals("")) {
                 throw new Exception("Preencha o campo: " + objValidar.getName());
             }
-            objValidar.setBackground(Color.white);
+            objValidar.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         } catch (Exception e) {
-            objValidar.setBackground(Color.red);
+            objValidar.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             mensagens.add(e.getMessage());
         }
 
     }
-
 
     public static void validarRadio(ButtonGroup buttonGroup) {
         try {
             if (buttonGroup.getSelection() == null) {
                 throw new RuntimeException("Selecione uma opção.");
             }
+
         } catch (Exception e) {
             mensagens.add(e.getMessage());
         }
     }
 
-    public static void validarData(JFormattedTextField formattedField) {
+    public static void validarData(JDateChooser dateChooser) {
         try {
-            String texto = formattedField.getText();
+            Date dataSelecionada = dateChooser.getDate();
 
-            String dataSemMascara = texto.replaceAll("[^0-9]", "");
-
-            if (dataSemMascara.length() != 8) {
-                throw new RuntimeException("Digite uma data válida (DD/MM/AAAA).");
+            if (dataSelecionada == null) {
+                throw new RuntimeException("Selecione uma data válida.");
             }
 
-            formattedField.setBackground(Color.white);
+            // Restante do seu código para validação, se necessário
+            dateChooser.setBorder(BorderFactory.createEmptyBorder());
         } catch (RuntimeException e) {
-            formattedField.setBackground(Color.red);
+            dateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             mensagens.add(e.getMessage());
         }
     }
-    
+
     public static void validarCPF(JFormattedTextField formattedField) {
         try {
             String texto = formattedField.getText();
@@ -71,12 +73,13 @@ public class Validador {
                 throw new RuntimeException("Digite um CPF válido.");
             }
 
-            formattedField.setBackground(Color.white);
+            formattedField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         } catch (RuntimeException e) {
-            formattedField.setBackground(Color.red);
+            formattedField.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             mensagens.add(e.getMessage());
         }
     }
+
     public static void validarTel(JFormattedTextField formattedField) {
         try {
             String texto = formattedField.getText();
@@ -86,10 +89,9 @@ public class Validador {
             if (dataSemMascara.length() != 11) {
                 throw new RuntimeException("Digite um número válido.");
             }
-
-            formattedField.setBackground(Color.white);
+            formattedField.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         } catch (RuntimeException e) {
-            formattedField.setBackground(Color.red);
+            formattedField.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             mensagens.add(e.getMessage());
         }
     }
