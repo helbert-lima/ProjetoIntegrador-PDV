@@ -4,6 +4,8 @@
  */
 package com.mycompany.projetopi.classes;
 
+import java.sql.Date;
+
 /**
  *
  * @author Pichau
@@ -14,10 +16,35 @@ public class Cliente {
     private int Id;
     private String Nome;
     private String Email;
-    private int DtNasc;
-    private int Cpf;
-    private int Tel;
+    private Date DtNasc;
+    private String Cpf;
+    private String Tel;
     private int Sexo;
+
+    public Cliente() {
+    }
+
+    public Cliente(int Id, String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo) {
+        this.Id = Id;
+        this.Nome = Nome;
+        this.Email = Email;
+        this.DtNasc = DtNasc;
+        this.Cpf = Cpf;
+        this.Tel = Tel;
+        this.Sexo = Sexo;
+    }
+
+    public Cliente(String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo) {
+        this.Nome = Nome;
+        this.Email = Email;
+        this.DtNasc = DtNasc;
+        this.Cpf = Cpf;
+        this.Tel = Tel;
+        this.Sexo = Sexo;
+    }
+    
+    
+    
 
     public int getId() {
         return Id;
@@ -44,27 +71,27 @@ public class Cliente {
         this.Email = Email;
     }
 
-    public int getDtNasc() {
+    public Date getDtNasc() {
         return DtNasc;
     }
 
-    public void setDtNasc(int DtNasc) {
+    public void setDtNasc(Date DtNasc) {
         this.DtNasc = DtNasc;
     }
 
-    public int getCpf() {
+    public String getCpf() {
         return Cpf;
     }
 
-    public void setCpf(int Cpf) {
+    public void setCpf(String Cpf) {
         this.Cpf = Cpf;
     }
 
-    public int getTel() {
+    public String getTel() {
         return Tel;
     }
 
-    public void setTel(int Tel) {
+    public void setTel(String Tel) {
         this.Tel = Tel;
     }
 

@@ -4,6 +4,8 @@
  */
 package com.mycompany.projetopi;
 
+import com.mycompany.projetopi.DAO.ClienteDAO;
+import com.mycompany.projetopi.classes.Cliente;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
 import com.mycompany.projetopi.utils.Validador;
+import java.sql.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,6 +78,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtTel = new javax.swing.JFormattedTextField(mftel);
         txtCPF = new javax.swing.JFormattedTextField(mfcpf);
         txtData = new com.toedter.calendar.JDateChooser();
+        jCheckBox1 = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -225,9 +229,13 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtCPF.setEnabled(false);
         txtCPF.setMinimumSize(new java.awt.Dimension(64, 23));
 
-        txtData.setDateFormatString("d '/' M '/' y");
+        txtData.setDateFormatString("dd'/'MM'/'yyyy");
         txtData.setEnabled(false);
         txtData.setMinimumSize(new java.awt.Dimension(82, 23));
+
+        jCheckBox1.setSelected(true);
+        jCheckBox1.setText("Ativo");
+        jCheckBox1.setEnabled(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -253,7 +261,9 @@ public class CadastroCliente extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(radioF)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(radioFM))
+                                .addComponent(radioFM)
+                                .addGap(32, 32, 32)
+                                .addComponent(jCheckBox1))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel2)
@@ -318,7 +328,8 @@ public class CadastroCliente extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(radioM)
                             .addComponent(radioF)
-                            .addComponent(radioFM))))
+                            .addComponent(radioFM)
+                            .addComponent(jCheckBox1))))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -390,11 +401,35 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         if (Validador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
-        }else{
-            JOptionPane.showMessageDialog(rootPane, "Usuario cadastrado com sucesso!");
+        } else {
+            String nome = txtNome.getText();
+            String email = txtEmail.getText();
+            java.util.Date dataSelecionada = txtData.getDate();
+            Date dtNasc = new Date(dataSelecionada.getTime());
+            String CPF = txtCPF.getText();
+            String tel = txtTel.getText();
+            int sexo = -1 ;
+            if (radioM.isSelected()) {
+                sexo = 0;
+            }
+            if (radioF.isSelected()) {
+                sexo = 1;
+            }
+            if (radioFM.isSelected()) {
+                sexo = 2;
+            }
+            
+            Cliente objCadastrar = new Cliente(nome, email, dtNasc, CPF, tel, sexo);
+            boolean retornoBanco = ClienteDAO.salvar(objCadastrar);
+            if (retornoBanco) {
+                 JOptionPane.showMessageDialog(rootPane, "Cliente cadastrado com sucesso!");
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Falha ao cadastrar");
+            }
         }
 
         Validador.limparMensagens();
+
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
@@ -444,6 +479,7 @@ public class CadastroCliente extends javax.swing.JFrame {
     private javax.swing.JButton btnCadastrar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnNovo;
+    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
