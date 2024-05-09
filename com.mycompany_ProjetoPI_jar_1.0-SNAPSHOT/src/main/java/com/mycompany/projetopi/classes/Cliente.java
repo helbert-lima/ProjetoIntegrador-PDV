@@ -20,11 +20,20 @@ public class Cliente {
     private String Cpf;
     private String Tel;
     private int Sexo;
+    private int Ativo;
+
+    public int getAtivo() {
+        return Ativo;
+    }
+
+    public void setAtivo(int Ativo) {
+        this.Ativo = Ativo;
+    }
 
     public Cliente() {
     }
 
-    public Cliente(int Id, String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo) {
+    public Cliente(int Id, String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo, int Ativo) {
         this.Id = Id;
         this.Nome = Nome;
         this.Email = Email;
@@ -32,15 +41,17 @@ public class Cliente {
         this.Cpf = Cpf;
         this.Tel = Tel;
         this.Sexo = Sexo;
+        this.Ativo = Ativo;
     }
 
-    public Cliente(String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo) {
+    public Cliente(String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo, int Ativo) {
         this.Nome = Nome;
         this.Email = Email;
         this.DtNasc = DtNasc;
         this.Cpf = Cpf;
         this.Tel = Tel;
         this.Sexo = Sexo;
+        this.Ativo = Ativo;
     }
     
     
