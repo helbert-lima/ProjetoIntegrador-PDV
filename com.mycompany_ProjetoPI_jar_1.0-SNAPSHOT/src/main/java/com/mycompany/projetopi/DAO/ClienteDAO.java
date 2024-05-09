@@ -65,6 +65,49 @@ public class ClienteDAO {
 
         return retorno;
     }
+    
+    public static boolean alterar(Cliente obj) {
+        boolean retorno = false;
+        Connection conexao = null;
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conexao = DriverManager.getConnection(URL, login, senha);
+
+            PreparedStatement instrucaoSQL = conexao.prepareStatement(
+                    "UPDATE Cliente SET Nome = ?, Email = ?, DtNasc = ?, CPF = ? , Telefone = ? , Sexo = ?, Ativo = ? WHERE Id = ?;"
+            );
+
+            instrucaoSQL.setString(1, obj.getNome());
+            instrucaoSQL.setString(2, obj.getEmail());
+            instrucaoSQL.setDate(3, obj.getDtNasc());
+            instrucaoSQL.setString(4, obj.getCpf());
+            instrucaoSQL.setString(5, obj.getTel());
+            instrucaoSQL.setInt(6, obj.getSexo());
+            instrucaoSQL.setInt(7, obj.getAtivo());
+            instrucaoSQL.setInt(8, obj.getId());
+
+            int linhasAfetadas = instrucaoSQL.executeUpdate();
+            if (linhasAfetadas > 0) {
+                retorno = true;
+            }
+
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver não encontrado");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (conexao != null) {
+                try {
+                    conexao.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ClienteDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        return retorno;
+    }
 
     public static ArrayList<Cliente> listar(int index, String busca) {
         ArrayList<Cliente> listaRetorno = new ArrayList<>();

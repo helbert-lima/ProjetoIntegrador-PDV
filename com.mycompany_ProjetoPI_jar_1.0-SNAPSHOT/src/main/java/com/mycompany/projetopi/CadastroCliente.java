@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
 import com.mycompany.projetopi.utils.Validador;
+import java.awt.Color;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
+import javax.swing.BorderFactory;
 
 /**
  *
@@ -99,6 +100,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtNome.setEnabled(false);
         txtNome.setMinimumSize(new java.awt.Dimension(64, 23));
         txtNome.setName("Nome"); // NOI18N
+        txtNome.setNextFocusableComponent(txtEmail);
         txtNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtNomeActionPerformed(evt);
@@ -114,6 +116,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         });
 
         btnNovo.setText("Novo");
+        btnNovo.setNextFocusableComponent(txtNome);
         btnNovo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNovoActionPerformed(evt);
@@ -209,6 +212,7 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         txtEmail.setEnabled(false);
         txtEmail.setName("E-mail"); // NOI18N
+        txtEmail.setNextFocusableComponent(txtData);
         txtEmail.setPreferredSize(new java.awt.Dimension(64, 23));
         txtEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -247,16 +251,19 @@ public class CadastroCliente extends javax.swing.JFrame {
 
         txtCPF.setEnabled(false);
         txtCPF.setMinimumSize(new java.awt.Dimension(64, 23));
+        txtCPF.setNextFocusableComponent(txtTel);
 
         txtData.setDateFormatString("dd'/'MM'/'yyyy");
         txtData.setEnabled(false);
         txtData.setMinimumSize(new java.awt.Dimension(82, 23));
+        txtData.setNextFocusableComponent(txtCPF);
 
         ckbAtivo.setSelected(true);
         ckbAtivo.setText("Ativo");
         ckbAtivo.setEnabled(false);
 
         btnSelecionar.setText("Selecionar linha");
+        btnSelecionar.setNextFocusableComponent(txtNome);
         btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelecionarActionPerformed(evt);
@@ -414,7 +421,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         CadastroCliente.this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
     private void habilitarCampos() {
-        
+
         txtNome.setEnabled(true);
         txtEmail.setEnabled(true);
         txtData.setEnabled(true);
@@ -435,10 +442,22 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtTel.setText("");
         Sexo.clearSelection();
     }
+    private void removerDestaque(){
+        txtNome.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        txtEmail.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        txtCPF.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        txtTel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
+        txtData.setBorder(BorderFactory.createEmptyBorder());
+    }
+    
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
         habilitarCampos();
         limparCampos();
+        removerDestaque();
+        ckbAtivo.setSelected(true);
+        ckbAtivo.setEnabled(false);
+        btnAlterar.setEnabled(false);
         btnCadastrar.setEnabled(true);
         btnNovo.setEnabled(false);
     }//GEN-LAST:event_btnNovoActionPerformed
@@ -477,6 +496,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             boolean retornoBanco = ClienteDAO.salvar(objCadastrar);
             if (retornoBanco) {
                 JOptionPane.showMessageDialog(rootPane, "Cliente cadastrado com sucesso!");
+                limparCampos();
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Falha ao cadastrar");
             }
@@ -519,7 +539,46 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        Validador.validar(txtNome);
+        Validador.validar(txtEmail);
+        Validador.validarData(txtData);
+        Validador.validarCPF(txtCPF);
+        Validador.validarTel(txtTel);
+        Validador.validarRadio(Sexo);
 
+        if (Validador.hasErro()) {
+            JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
+        } else {
+            int id = Integer.parseInt(txtId.getText());
+            String nome = txtNome.getText();
+            String email = txtEmail.getText();
+            java.util.Date dataSelecionada = txtData.getDate();
+            Date dtNasc = new Date(dataSelecionada.getTime());
+            String CPF = txtCPF.getText().replaceAll("[^0-9]", "");
+            String tel = txtTel.getText();
+            int ativo = (ckbAtivo.isSelected()) ? 1 : 0;
+            int sexo = -1;
+            if (radioM.isSelected()) {
+                sexo = 0;
+            }
+            if (radioF.isSelected()) {
+                sexo = 1;
+            }
+            if (radioFM.isSelected()) {
+                sexo = 2;
+            }
+
+            Cliente objCadastrar = new Cliente(id, nome, email, dtNasc, CPF, tel, sexo, ativo);
+            boolean retornoBanco = ClienteDAO.alterar(objCadastrar);
+            if (retornoBanco) {
+                JOptionPane.showMessageDialog(rootPane, "Alterado cadastrado com sucesso!");
+                limparCampos();
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Falha ao alterar");
+            }
+        }
+
+        Validador.limparMensagens();
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
@@ -535,21 +594,24 @@ public class CadastroCliente extends javax.swing.JFrame {
             try {
                 java.util.Date data = formato.parse(dataString);
                 txtData.setDate(data);
-               } catch (ParseException e) {
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
-              txtCPF.setText(modeloCliente.getValueAt(linhaSelecionada, 4).toString());
-              txtTel.setText(modeloCliente.getValueAt(linhaSelecionada, 5).toString());
-              String sexo = (modeloCliente.getValueAt(linhaSelecionada, 6).toString());
-              if (sexo.equals("Masculino")) {
+            txtCPF.setText(modeloCliente.getValueAt(linhaSelecionada, 4).toString());
+            txtTel.setText(modeloCliente.getValueAt(linhaSelecionada, 5).toString());
+            String sexo = (modeloCliente.getValueAt(linhaSelecionada, 6).toString());
+            if (sexo.equals("Masculino")) {
                 radioM.setSelected(true);
             }
-              if (sexo.equals("Feminino")) {
+            if (sexo.equals("Feminino")) {
                 radioF.setSelected(true);
             }
             if (sexo.equals("Outro")) {
                 radioFM.setSelected(true);
             }
+
+            ckbAtivo.setSelected(true);
+            removerDestaque();
             btnNovo.setEnabled(true);
             btnCadastrar.setEnabled(false);
             btnAlterar.setEnabled(true);
