@@ -6,12 +6,6 @@ package com.mycompany.projetopi;
 
 import com.mycompany.projetopi.DAO.ClienteDAO;
 import com.mycompany.projetopi.classes.Cliente;
-import java.awt.event.KeyEvent;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JFormattedTextField;
 import javax.swing.text.MaskFormatter;
 import com.mycompany.projetopi.utils.Validador;
 import java.awt.Color;
@@ -23,16 +17,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import javax.swing.BorderFactory;
 
-/**
- *
- * @author Pichau
- */
 public class CadastroCliente extends javax.swing.JFrame {
 
     Cliente objAlterar = null;
-    /**
-     * Creates new form CadastroCliente
-     */
     MaskFormatter mfdata;
     MaskFormatter mftel;
     MaskFormatter mfcpf;
@@ -48,6 +35,7 @@ public class CadastroCliente extends javax.swing.JFrame {
         }
 
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -442,14 +430,15 @@ public class CadastroCliente extends javax.swing.JFrame {
         txtTel.setText("");
         Sexo.clearSelection();
     }
-    private void removerDestaque(){
+
+    private void removerDestaque() {
         txtNome.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         txtEmail.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         txtCPF.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         txtTel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
         txtData.setBorder(BorderFactory.createEmptyBorder());
     }
-    
+
     private void btnNovoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoActionPerformed
         // TODO add your handling code here:
         habilitarCampos();
@@ -511,7 +500,6 @@ public class CadastroCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
         ArrayList<Cliente> lista = ClienteDAO.listar(cmbBuscar.getSelectedIndex(), txtBuscar.getText());
         DefaultTableModel modeloTabela = (DefaultTableModel) tblBusca.getModel();
         modeloTabela.setRowCount(0);
@@ -519,11 +507,9 @@ public class CadastroCliente extends javax.swing.JFrame {
         for (Cliente cliente : lista) {
             if (cliente.getSexo() == 0) {
                 sexo = "Masculino";
-            }
-            if (cliente.getSexo() == 1) {
+            } else if (cliente.getSexo() == 1) {
                 sexo = "Feminino";
-            }
-            if (cliente.getSexo() == 2) {
+            } else if (cliente.getSexo() == 2) {
                 sexo = "Outro";
             }
             modeloTabela.addRow(new String[]{
@@ -533,10 +519,11 @@ public class CadastroCliente extends javax.swing.JFrame {
                 String.valueOf(cliente.getDtNasc()),
                 cliente.getCpf(),
                 cliente.getTel(),
-                sexo,});
+                sexo
+            });
         }
-
     }//GEN-LAST:event_btnBuscarActionPerformed
+
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         Validador.validar(txtNome);
@@ -589,7 +576,7 @@ public class CadastroCliente extends javax.swing.JFrame {
             txtId.setText(modeloCliente.getValueAt(linhaSelecionada, 0).toString());
             txtNome.setText(modeloCliente.getValueAt(linhaSelecionada, 1).toString());
             txtEmail.setText(modeloCliente.getValueAt(linhaSelecionada, 2).toString());
-            String dataString = modeloCliente.getValueAt(linhaSelecionada, 3).toString(); // Sua string de data
+            String dataString = modeloCliente.getValueAt(linhaSelecionada, 3).toString();
             SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 java.util.Date data = formato.parse(dataString);

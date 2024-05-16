@@ -25,6 +25,7 @@ public class TelaVendas extends javax.swing.JFrame {
             System.out.println("Deu ruim familia!Batman morreu");
         }
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

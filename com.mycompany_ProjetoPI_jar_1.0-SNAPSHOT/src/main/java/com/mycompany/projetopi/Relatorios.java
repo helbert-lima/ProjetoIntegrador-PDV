@@ -15,6 +15,7 @@ public class Relatorios extends javax.swing.JFrame {
      */
     public Relatorios() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
