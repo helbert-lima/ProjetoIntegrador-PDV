@@ -20,7 +20,9 @@ public class MarcaDAO {
     static String URL = "jdbc:mysql://localhost:3306/lojainformatica";
     static String login = "root";
     static String senha = "p4$$w0rd";
+    
 
+    
     public static boolean salvar(Marca obj) {
         boolean retorno = false;
         Connection conexao = null;

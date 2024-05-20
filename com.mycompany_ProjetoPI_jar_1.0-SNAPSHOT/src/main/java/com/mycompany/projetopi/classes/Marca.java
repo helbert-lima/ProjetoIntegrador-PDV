@@ -1,6 +1,5 @@
 package com.mycompany.projetopi.classes;
 
-
 public class Marca {
 
     private int Id;
@@ -34,4 +33,8 @@ public class Marca {
         this.Nome = Nome;
     }
 
+    @Override
+    public String toString() {
+        return Nome;
+    }
 }
