@@ -11,9 +11,57 @@ package com.mycompany.projetopi.classes;
 public class Produto {
 
     private int Id;
+    private Marca marca;
+    private Categoria categoria;
     private String Produto;
     private double Preco;
     private int qtd;
+    private int Ativo;
+
+    public Produto(Marca marca, Categoria categoria, String Produto, double Preco, int qtd) {
+        this.marca = marca;
+        this.categoria = categoria;
+        this.Produto = Produto;
+        this.Preco = Preco;
+        this.qtd = qtd;
+    }
+
+    public Produto(int Id, Marca marca, Categoria categoria, String Produto, double Preco, int qtd, int Ativo) {
+        this.Id = Id;
+        this.marca = marca;
+        this.categoria = categoria;
+        this.Produto = Produto;
+        this.Preco = Preco;
+        this.qtd = qtd;
+        this.Ativo = Ativo;
+    }
+
+    public Produto() {
+    }
+
+    public int getAtivo() {
+        return Ativo;
+    }
+
+    public void setAtivo(int Ativo) {
+        this.Ativo = Ativo;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
 
     public String getProduto() {
         return Produto;

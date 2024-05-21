@@ -7,9 +7,11 @@ package com.mycompany.projetopi;
 import com.mycompany.projetopi.DAO.CategoriaDAO;
 import com.mycompany.projetopi.DAO.ClienteDAO;
 import com.mycompany.projetopi.DAO.MarcaDAO;
+import com.mycompany.projetopi.DAO.ProdutoDAO;
 import com.mycompany.projetopi.classes.Categoria;
 import com.mycompany.projetopi.classes.Cliente;
 import com.mycompany.projetopi.classes.Marca;
+import com.mycompany.projetopi.classes.Produto;
 import com.mycompany.projetopi.utils.Validador;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -74,6 +76,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         cbbMarca = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        cbkAtivo = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBuscaM = new javax.swing.JTable();
@@ -177,11 +180,11 @@ public class CadastroProduto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "", "Id", "Produto", "Preço", "Qtde"
+                "Id", "Marca", "Categoria", "Produto", "Preço", "Qtde"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, true, true, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -190,8 +193,10 @@ public class CadastroProduto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblBusca);
         if (tblBusca.getColumnModel().getColumnCount() > 0) {
-            tblBusca.getColumnModel().getColumn(0).setResizable(false);
-            tblBusca.getColumnModel().getColumn(0).setPreferredWidth(2);
+            tblBusca.getColumnModel().getColumn(0).setPreferredWidth(25);
+            tblBusca.getColumnModel().getColumn(1).setPreferredWidth(70);
+            tblBusca.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblBusca.getColumnModel().getColumn(5).setPreferredWidth(30);
         }
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -200,7 +205,7 @@ public class CadastroProduto extends javax.swing.JFrame {
 
         txtBuscar.setEnabled(false);
 
-        cbbBuscarP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "ID", "Produto", " " }));
+        cbbBuscarP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "ID", "Produto", "Marca", "Categoria" }));
         cbbBuscarP.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbbBuscarPItemStateChanged(evt);
@@ -213,6 +218,11 @@ public class CadastroProduto extends javax.swing.JFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -255,6 +265,16 @@ public class CadastroProduto extends javax.swing.JFrame {
             }
         });
 
+        cbbCategoria.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                cbbCategoriaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+
         cbbMarca.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 cbbMarcaAncestorAdded(evt);
@@ -274,6 +294,15 @@ public class CadastroProduto extends javax.swing.JFrame {
 
         jLabel9.setText("Categoria");
 
+        cbkAtivo.setSelected(true);
+        cbkAtivo.setText("Ativo");
+        cbkAtivo.setEnabled(false);
+        cbkAtivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbkAtivoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -285,13 +314,13 @@ public class CadastroProduto extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 478, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))
+                        .addContainerGap(13, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
-                                .addGap(23, 429, Short.MAX_VALUE))
+                                .addGap(23, 427, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cbbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -303,6 +332,8 @@ public class CadastroProduto extends javax.swing.JFrame {
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(cbbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbkAtivo)
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +393,8 @@ public class CadastroProduto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cbbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbkAtivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -527,7 +559,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnSelecionar, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtIdM, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 9, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -693,7 +725,7 @@ public class CadastroProduto extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(381, Short.MAX_VALUE)
+                .addContainerGap(379, Short.MAX_VALUE)
                 .addComponent(txtIdC, javax.swing.GroupLayout.PREFERRED_SIZE, 0, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(118, 118, 118))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -725,7 +757,7 @@ public class CadastroProduto extends javax.swing.JFrame {
                                                 .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnSelecionarC, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addContainerGap(8, Short.MAX_VALUE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -838,14 +870,21 @@ public class CadastroProduto extends javax.swing.JFrame {
         Validador.validar(txtProduto);
         Validador.validar(txtPreco);
         Validador.validar(txtQtd);
-        Marca marca = (Marca) cbbMarca.getSelectedItem();
-        int id = marca.getId();
-        
         if (Validador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
-            System.out.println(id);
         } else {
-            JOptionPane.showMessageDialog(rootPane, "Produto cadastrado com sucesso!");
+            String produto = txtProduto.getText();
+            double preco = Double.parseDouble(txtPreco.getText());
+            int qtd = Integer.parseInt(txtQtd.getText());
+            Marca marca = (Marca) cbbMarca.getSelectedItem();
+            Categoria categoria = (Categoria) cbbCategoria.getSelectedItem();
+            Produto objCadBastrar = new Produto(marca, categoria, produto, preco, qtd);
+            boolean retornoBanco = ProdutoDAO.salvar(objCadBastrar);
+            if (retornoBanco) {
+                JOptionPane.showMessageDialog(rootPane, "Produto cadastrado com sucesso!");
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Falha ao cadastrar");
+            }
         }
 
         Validador.limparMensagens();
@@ -1119,6 +1158,37 @@ public class CadastroProduto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1FocusLost
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        ArrayList<Produto> listaProduto = ProdutoDAO.listar(cbbBuscarP.getSelectedIndex(), txtBuscar.getText());
+        DefaultTableModel modeloTabela = (DefaultTableModel) tblBusca.getModel();
+        modeloTabela.setRowCount(0);
+        for (Produto item : listaProduto) {
+            modeloTabela.addRow(new Object[]{
+                item.getId(),
+                item.getMarca(),
+                item.getCategoria(),
+                item.getProduto(),
+                item.getPreco(),
+                item.getPreco()
+            });
+
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void cbbCategoriaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_cbbCategoriaAncestorAdded
+        // TODO add your handling code here:
+        ArrayList<Categoria> listaCategorias = CategoriaDAO.listar(0, "");
+        cbbCategoria.removeAllItems();
+        for (Categoria item : listaCategorias) {
+            cbbCategoria.addItem(item);
+        }
+    }//GEN-LAST:event_cbbCategoriaAncestorAdded
+
+    private void cbkAtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbkAtivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbkAtivoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1185,8 +1255,9 @@ public class CadastroProduto extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbBuscarC;
     private javax.swing.JComboBox<String> cbbBuscarM;
     private javax.swing.JComboBox<String> cbbBuscarP;
-    private javax.swing.JComboBox<String> cbbCategoria;
+    private javax.swing.JComboBox<Categoria> cbbCategoria;
     private javax.swing.JComboBox<Marca> cbbMarca;
+    private javax.swing.JCheckBox cbkAtivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

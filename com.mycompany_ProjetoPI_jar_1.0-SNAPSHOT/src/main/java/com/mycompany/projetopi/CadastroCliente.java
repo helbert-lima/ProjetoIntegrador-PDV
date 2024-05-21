@@ -156,6 +156,11 @@ public class CadastroCliente extends javax.swing.JFrame {
         jLabel1.setText("Buscar por:");
 
         cmbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Todos", "Nome", "CPF" }));
+        cmbBuscar.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cmbBuscarItemStateChanged(evt);
+            }
+        });
         cmbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbBuscarActionPerformed(evt);
@@ -608,6 +613,16 @@ public class CadastroCliente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Nenhuma linha selecionada");
         }
     }//GEN-LAST:event_btnSelecionarActionPerformed
+
+    private void cmbBuscarItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbBuscarItemStateChanged
+        // TODO add your handling code here:
+        txtBuscar.setText("");
+        if (cmbBuscar.getSelectedIndex() == 0) {
+            txtBuscar.setEnabled(false);
+        }else{
+            txtBuscar.setEnabled(true);
+        }
+    }//GEN-LAST:event_cmbBuscarItemStateChanged
 
     /**
      * @param args the command line arguments

@@ -144,7 +144,7 @@ public class ClienteDAO {
                     String nome = rs.getString("Nome");
                     String email = rs.getString("Email");
                     Date dtNasc = rs.getDate("DtNasc");
-                    StringBuilder cpfBuilder = new StringBuilder(rs.getString("CPF")); // Seu número de CPF
+                    StringBuilder cpfBuilder = new StringBuilder(rs.getString("CPF"));
                     cpfBuilder.insert(3, '.').insert(7, '.').insert(11, '-');
                     String cpf = cpfBuilder.toString();
                     String tel = rs.getString("Telefone");

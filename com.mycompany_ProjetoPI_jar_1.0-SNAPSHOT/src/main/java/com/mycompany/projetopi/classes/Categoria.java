@@ -5,6 +5,7 @@ public class Categoria {
     private int Id;
     private String Nome;
 
+
     public Categoria() {
     }
 
@@ -31,5 +32,9 @@ public class Categoria {
 
     public void setNome(String Nome) {
         this.Nome = Nome;
+    }
+    @Override
+    public String toString() {
+        return Nome;
     }
 }
