@@ -4,6 +4,8 @@
  */
 package com.mycompany.projetopi.utils;
 
+import com.mycompany.projetopi.classes.Cliente;
+import com.mycompany.projetopi.classes.Produto;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.text.ParseException;
@@ -11,7 +13,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 /**
@@ -36,6 +40,34 @@ public class Validador {
 
     }
 
+    public static void validarCliente(Cliente cliente) {
+        try {
+            if (cliente == null) {
+                throw new Exception("Adicione um cliente antes de finalizar");
+            }
+        } catch (Exception e) {
+            mensagens.add(e.getMessage());
+        }
+    }
+    public static void validarProduto(Produto produto) {
+        try {
+            if (produto == null) {
+                throw new Exception("Nenhum produto selecionado");
+            }
+        } catch (Exception e) {
+            mensagens.add(e.getMessage());
+        }
+    }
+    public static void validarCarrinho(ArrayList<Produto> carrinho) {
+        try {
+            if (carrinho.isEmpty()) {
+                throw new Exception("Carrinho de compras vazio");
+            }
+        } catch (Exception e) {
+            mensagens.add(e.getMessage());
+        }
+    }
+
     public static void validarRadio(ButtonGroup buttonGroup) {
         try {
             if (buttonGroup.getSelection() == null) {
@@ -43,6 +75,18 @@ public class Validador {
             }
 
         } catch (Exception e) {
+            mensagens.add(e.getMessage());
+        }
+    }
+
+    public static void validarCombo(JComboBox comboBox, JLabel label) {
+        try {
+            if (comboBox.getSelectedIndex() == -1) {
+                throw new RuntimeException("Selecione uma " + label.getText());
+            }
+            comboBox.setBorder(BorderFactory.createEmptyBorder());
+        } catch (Exception e) {
+            comboBox.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
             mensagens.add(e.getMessage());
         }
     }

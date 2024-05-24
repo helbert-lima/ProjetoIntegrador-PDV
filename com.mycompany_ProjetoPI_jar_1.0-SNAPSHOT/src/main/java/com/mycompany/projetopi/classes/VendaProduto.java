@@ -16,6 +16,24 @@ public class VendaProduto {
     private int Qtd;
     private double Total;
 
+    public VendaProduto(int IdProduto, int IdVenda, int Qtd, double Total) {
+        this.IdProduto = IdProduto;
+        this.IdVenda = IdVenda;
+        this.Qtd = Qtd;
+        this.Total = Total;
+    }
+
+    public VendaProduto(int Id, int IdProduto, int IdVenda, int Qtd, double Total) {
+        this.Id = Id;
+        this.IdProduto = IdProduto;
+        this.IdVenda = IdVenda;
+        this.Qtd = Qtd;
+        this.Total = Total;
+    }
+
+    public VendaProduto() {
+    }
+
     public int getId() {
         return Id;
     }

@@ -4,6 +4,8 @@
  */
 package com.mycompany.projetopi.classes;
 
+import java.sql.Date;
+
 /**
  *
  * @author Gustavo
@@ -13,8 +15,24 @@ public class Venda {
     private int Id;
     private int IdCliente;
     private double Valor;
-    private String Data;
-    
+    private Date Data;
+
+    public Venda(int Id, int IdCliente, double Valor, Date Data) {
+        this.Id = Id;
+        this.IdCliente = IdCliente;
+        this.Valor = Valor;
+        this.Data = Data;
+    }
+
+    public Venda(int IdCliente, double Valor, Date Data) {
+        this.IdCliente = IdCliente;
+        this.Valor = Valor;
+        this.Data = Data;
+    }
+
+    public Venda() {
+    }
+
     public int getId() {
         return Id;
     }
@@ -39,13 +57,12 @@ public class Venda {
         this.Valor = Valor;
     }
 
-    public String getData() {
+    public Date getData() {
         return Data;
     }
 
-    public void setData(String Data) {
+    public void setData(Date Data) {
         this.Data = Data;
     }
-    
-    
+
 }

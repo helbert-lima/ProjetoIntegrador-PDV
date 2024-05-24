@@ -18,6 +18,20 @@ public class Produto {
     private int qtd;
     private int Ativo;
 
+    public Produto(int Id) {
+        this.Id = Id;
+    }
+
+    public Produto(int Id, Marca marca, String Produto, double Preco, int qtd) {
+        this.Id = Id;
+        this.marca = marca;
+        this.Produto = Produto;
+        this.Preco = Preco;
+        this.qtd = qtd;
+    }
+
+
+
     public Produto(Marca marca, Categoria categoria, String Produto, double Preco, int qtd) {
         this.marca = marca;
         this.categoria = categoria;
