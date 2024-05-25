@@ -4,10 +4,12 @@
  */
 package com.mycompany.projetopi.DAO;
 
+import com.mycompany.projetopi.classes.Cliente;
 import com.mycompany.projetopi.classes.Produto;
 import com.mycompany.projetopi.classes.Venda;
 import com.mycompany.projetopi.classes.VendaProduto;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,7 +41,7 @@ public class VendaDAO {
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
 
-            instrucaoSQL.setInt(1, obj.getIdCliente());
+            instrucaoSQL.setInt(1, obj.getCliente().getId());
             instrucaoSQL.setDouble(2, obj.getValor());
             instrucaoSQL.setDate(3, obj.getData());
 
@@ -53,7 +55,7 @@ public class VendaDAO {
 
                 ArrayList<VendaProduto> lista = new ArrayList<>();
                 for (Produto p : carrinho) {
-                    VendaProduto item = new VendaProduto(p.getId(), idVenda, p.getQtd(), p.getQtd() * p.getPreco());
+                    VendaProduto item = new VendaProduto(p, idVenda, p.getQtd(), p.getQtd() * p.getPreco());
                     lista.add(item);
                 }
                 instrucaoSQL = conexao.prepareStatement(
@@ -62,7 +64,7 @@ public class VendaDAO {
                 int linhasAfetadas2 = 0;
                 for (VendaProduto p : lista) {
                     instrucaoSQL.setInt(1, p.getIdVenda());
-                    instrucaoSQL.setInt(2, p.getIdProduto());
+                    instrucaoSQL.setInt(2, p.getProduto().getId());
                     instrucaoSQL.setInt(3, p.getQtd());
                     instrucaoSQL.setDouble(4, p.getTotal());
                     linhasAfetadas2 += instrucaoSQL.executeUpdate();
@@ -87,5 +89,54 @@ public class VendaDAO {
         }
 
         return retorno;
+    }
+        public static ArrayList<Venda> listar(Date inicio, Date fim) {
+        ArrayList<Venda> listaRetorno = new ArrayList<>();
+        Connection conexao = null;
+        ResultSet rs = null;
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conexao = DriverManager.getConnection(URL, login, senha);
+            
+            PreparedStatement instrucaoSQL = conexao.prepareStatement(
+                    "SELECT v.*, c.Nome FROM Venda v JOIN Cliente c ON(v.Id_Cliente = c.Id) WHERE Dt BETWEEN ? AND ?;"
+            );
+            instrucaoSQL.setDate(1,inicio);
+            instrucaoSQL.setDate(2,fim);
+            rs = instrucaoSQL.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    int id = rs.getInt("Id");
+                    int idCliente = rs.getInt("Id_Cliente");
+                    String nome = rs.getString("Nome");
+                    Cliente cliente = new Cliente(idCliente, nome);
+                    double total = rs.getDouble("Valor");
+                    Date dt = rs.getDate("Dt");
+                    Venda item = new Venda(id, cliente, total, dt);
+                    listaRetorno.add(item);
+                }
+            }
+           
+        } catch (Exception e) {
+            listaRetorno = null;
+        } finally {
+            if (conexao != null) {
+                try {
+                    conexao.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(VendaDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+        }
+        return listaRetorno;
     }
 }

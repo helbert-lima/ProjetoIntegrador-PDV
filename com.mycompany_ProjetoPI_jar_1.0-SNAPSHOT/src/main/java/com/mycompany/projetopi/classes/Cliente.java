@@ -33,6 +33,11 @@ public class Cliente {
     public Cliente() {
     }
 
+    public Cliente(int Id, String Nome) {
+        this.Id = Id;
+        this.Nome = Nome;
+    }
+
     public Cliente(int Id, String Nome, String Email, Date DtNasc, String Cpf, String Tel, int Sexo, int Ativo) {
         this.Id = Id;
         this.Nome = Nome;
@@ -113,4 +118,10 @@ public class Cliente {
     public void setSexo(int Sexo) {
         this.Sexo = Sexo;
     }
+
+    @Override
+    public String toString() {
+        return Nome;
+    }
+    
 }

@@ -49,6 +49,7 @@ public class Validador {
             mensagens.add(e.getMessage());
         }
     }
+
     public static void validarProduto(Produto produto) {
         try {
             if (produto == null) {
@@ -58,6 +59,7 @@ public class Validador {
             mensagens.add(e.getMessage());
         }
     }
+
     public static void validarCarrinho(ArrayList<Produto> carrinho) {
         try {
             if (carrinho.isEmpty()) {
@@ -103,7 +105,10 @@ public class Validador {
             dateChooser.setBorder(BorderFactory.createEmptyBorder());
         } catch (RuntimeException e) {
             dateChooser.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-            mensagens.add(e.getMessage());
+            boolean possui = false;
+            if (!mensagens.contains(e.getMessage())) {
+                mensagens.add(e.getMessage());
+            }
         }
     }
 

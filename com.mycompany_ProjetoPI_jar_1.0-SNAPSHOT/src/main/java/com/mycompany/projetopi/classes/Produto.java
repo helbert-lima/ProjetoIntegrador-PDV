@@ -22,6 +22,16 @@ public class Produto {
         this.Id = Id;
     }
 
+    @Override
+    public String toString() {
+        return Produto;
+    }
+    
+    public Produto(int Id, String Produto) {
+        this.Id = Id;
+        this.Produto = Produto;
+    }
+
     public Produto(int Id, Marca marca, String Produto, double Preco, int qtd) {
         this.Id = Id;
         this.marca = marca;

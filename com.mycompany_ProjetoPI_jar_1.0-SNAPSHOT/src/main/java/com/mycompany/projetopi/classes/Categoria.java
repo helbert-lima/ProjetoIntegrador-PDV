@@ -4,18 +4,32 @@ public class Categoria {
 
     private int Id;
     private String Nome;
-
+    private int Ativo;
 
     public Categoria() {
     }
 
-    public Categoria(String nome) {
-        this.Nome = nome;
+    public Categoria(String Nome) {
+        this.Nome = Nome;
     }
 
-    public Categoria(int id, String nome) {
-        this.Id = id;
-        this.Nome = nome;
+    public Categoria(int Id, String Nome, int Ativo) {
+        this.Id = Id;
+        this.Nome = Nome;
+        this.Ativo = Ativo;
+    }
+
+    public Categoria(int Id, String Nome) {
+        this.Id = Id;
+        this.Nome = Nome;
+    }
+
+    public int getAtivo() {
+        return Ativo;
+    }
+
+    public void setAtivo(int Ativo) {
+        this.Ativo = Ativo;
     }
 
     public int getId() {
@@ -33,6 +47,7 @@ public class Categoria {
     public void setNome(String Nome) {
         this.Nome = Nome;
     }
+
     @Override
     public String toString() {
         return Nome;

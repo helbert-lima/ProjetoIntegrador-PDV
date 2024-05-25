@@ -11,21 +11,36 @@ package com.mycompany.projetopi.classes;
 public class VendaProduto {
 
     private int Id;
-    private int IdProduto;
+    private Produto produto;
     private int IdVenda;
     private int Qtd;
     private double Total;
 
-    public VendaProduto(int IdProduto, int IdVenda, int Qtd, double Total) {
-        this.IdProduto = IdProduto;
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public VendaProduto(int Id, Produto produto, int Qtd, double Total) {
+        this.Id = Id;
+        this.produto = produto;
+        this.Qtd = Qtd;
+        this.Total = Total;
+    }
+    
+    public VendaProduto(Produto produto, int IdVenda, int Qtd, double Total) {
+        this.produto = produto;
         this.IdVenda = IdVenda;
         this.Qtd = Qtd;
         this.Total = Total;
     }
 
-    public VendaProduto(int Id, int IdProduto, int IdVenda, int Qtd, double Total) {
+    public VendaProduto(int Id, Produto produto, int IdVenda, int Qtd, double Total) {
         this.Id = Id;
-        this.IdProduto = IdProduto;
+        this.produto = produto;
         this.IdVenda = IdVenda;
         this.Qtd = Qtd;
         this.Total = Total;
@@ -40,14 +55,6 @@ public class VendaProduto {
 
     public void setId(int Id) {
         this.Id = Id;
-    }
-
-    public int getIdProduto() {
-        return IdProduto;
-    }
-
-    public void setIdProduto(int IdProduto) {
-        this.IdProduto = IdProduto;
     }
 
     public int getIdVenda() {

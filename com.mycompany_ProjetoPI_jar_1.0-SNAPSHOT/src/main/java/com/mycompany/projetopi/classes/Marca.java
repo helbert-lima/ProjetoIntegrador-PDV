@@ -4,17 +4,32 @@ public class Marca {
 
     private int Id;
     private String Nome;
+    private int Ativo;
 
     public Marca() {
     }
 
-    public Marca(int id, String nome) {
-        this.Id = id;
-        this.Nome = nome;
+    public Marca(String Nome) {
+        this.Nome = Nome;
     }
 
-    public Marca(String nome) {
+    public Marca(int id, String nome, int ativo) {
+        this.Id = id;
         this.Nome = nome;
+        this.Ativo = ativo;
+    }
+
+    public Marca(int Id, String Nome) {
+        this.Id = Id;
+        this.Nome = Nome;
+    }
+
+    public int getAtivo() {
+        return Ativo;
+    }
+
+    public void setAtivo(int Ativo) {
+        this.Ativo = Ativo;
     }
 
     public int getId() {

@@ -365,7 +365,7 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         txtTotal.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        txtTotal.setText("R$0.00");
+        txtTotal.setText("R$0.0");
         txtTotal.setEnabled(false);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -448,7 +448,21 @@ public class TelaVendas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void clean(){
+        produtos = null;
+        cliente = null;
+        DefaultTableModel modeloTabela = (DefaultTableModel) tblItens.getModel();
+        modeloTabela.setRowCount(0);
+        txtTotal.setText("R$0.0");
+        txtCliente.setText("");
+        txtCPF.setText("");
+        txtCodigo.setText("");
+        txtProduto.setText("");
+        txtPreco.setText("");
+        txtQtd.setText("");
+        
+    }
+    
     public void atualizarTotal() {
         total = 0;
         for (Produto p : produtos) {
@@ -651,13 +665,13 @@ public class TelaVendas extends javax.swing.JFrame {
         if (Validador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
         } else {
-            int id = cliente.getId();
             Date data = Date.valueOf(dataAtual);
-            Venda venda = new Venda(id, total, data);
+            Venda venda = new Venda(cliente, total, data);
             boolean retorno = ProdutoDAO.atualizarQtd(produtos);
             boolean retornoBanco = VendaDAO.salvar(venda, produtos);
             if (retornoBanco) {
                 JOptionPane.showMessageDialog(rootPane, "Venda realizada com sucesso!");
+                clean();
             } else {
                 JOptionPane.showMessageDialog(rootPane, "Falha ao realizar venda");
             }

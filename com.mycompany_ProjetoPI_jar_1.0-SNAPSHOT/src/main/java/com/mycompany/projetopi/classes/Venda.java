@@ -13,22 +13,25 @@ import java.sql.Date;
 public class Venda {
 
     private int Id;
-    private int IdCliente;
+    private Cliente cliente;
     private double Valor;
     private Date Data;
 
-    public Venda(int Id, int IdCliente, double Valor, Date Data) {
-        this.Id = Id;
-        this.IdCliente = IdCliente;
+    public Venda(Cliente cliente, double Valor, Date Data) {
+        this.cliente = cliente;
         this.Valor = Valor;
         this.Data = Data;
     }
 
-    public Venda(int IdCliente, double Valor, Date Data) {
-        this.IdCliente = IdCliente;
+    public Venda(int Id, Cliente cliente, double Valor, Date Data) {
+        this.Id = Id;
+        this.cliente = cliente;
         this.Valor = Valor;
         this.Data = Data;
     }
+    
+
+
 
     public Venda() {
     }
@@ -41,13 +44,15 @@ public class Venda {
         this.Id = Id;
     }
 
-    public int getIdCliente() {
-        return IdCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(int IdCliente) {
-        this.IdCliente = IdCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
+
+
 
     public double getValor() {
         return Valor;
