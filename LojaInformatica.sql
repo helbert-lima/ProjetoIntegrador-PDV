@@ -16,12 +16,14 @@ Id int not null auto_increment
 create table Marca(
 Id int not null auto_increment
 ,Nome varchar(200) not null
+,Ativo int not null
 ,primary key (Id)
 );
 
 create table Categorias(
 Id int not null auto_increment
 ,Nome varchar(200) not null
+,Ativo int not null
 ,primary key (Id)
 );
 create table Produto(
