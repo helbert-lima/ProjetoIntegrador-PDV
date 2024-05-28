@@ -340,15 +340,6 @@
             <Property name="text" type="java.lang.String" value="Qtd:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="txtQtd">
-          <Properties>
-            <Property name="name" type="java.lang.String" value="Quantidade" noResource="true"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtQtdActionPerformed"/>
-            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtQtdKeyTyped"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JButton" name="btnPesqPro">
           <Properties>
             <Property name="text" type="java.lang.String" value="Pesquisar"/>
@@ -381,6 +372,15 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdd1ActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="txtQtd">
+          <Properties>
+            <Property name="enabled" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="txtQtdStateChanged"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtQtdKeyTyped"/>
           </Events>
         </Component>
       </SubComponents>

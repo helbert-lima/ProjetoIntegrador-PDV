@@ -17,7 +17,10 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -31,7 +34,8 @@ public class TelaVendas extends javax.swing.JFrame {
      * Creates new form TelaVendas
      */
     MaskFormatter mfcpf;
-    Produto produto;
+    SpinnerNumberModel spinnerModel;
+    Produto produto = new Produto();
     ArrayList<Produto> produtos = new ArrayList<>();
     Cliente cliente = null;
     LocalDate dataAtual = LocalDate.now();
@@ -72,11 +76,11 @@ public class TelaVendas extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         txtCodigo = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtQtd = new javax.swing.JTextField();
         btnPesqPro = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         txtPreco = new javax.swing.JTextField();
         btnAdd1 = new javax.swing.JButton();
+        txtQtd = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblItens = new javax.swing.JTable();
@@ -207,18 +211,6 @@ public class TelaVendas extends javax.swing.JFrame {
 
         jLabel9.setText("Qtd:");
 
-        txtQtd.setName("Quantidade"); // NOI18N
-        txtQtd.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtQtdActionPerformed(evt);
-            }
-        });
-        txtQtd.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtQtdKeyTyped(evt);
-            }
-        });
-
         btnPesqPro.setText("Pesquisar");
         btnPesqPro.setName(""); // NOI18N
         btnPesqPro.addActionListener(new java.awt.event.ActionListener() {
@@ -242,6 +234,18 @@ public class TelaVendas extends javax.swing.JFrame {
         btnAdd1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAdd1ActionPerformed(evt);
+            }
+        });
+
+        txtQtd.setEnabled(false);
+        txtQtd.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                txtQtdStateChanged(evt);
+            }
+        });
+        txtQtd.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtQtdKeyTyped(evt);
             }
         });
 
@@ -448,8 +452,9 @@ public class TelaVendas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void clean(){
-        produtos = null;
+    public void clean() {
+        produto = null;
+        produtos = new ArrayList<>();
         cliente = null;
         DefaultTableModel modeloTabela = (DefaultTableModel) tblItens.getModel();
         modeloTabela.setRowCount(0);
@@ -459,10 +464,8 @@ public class TelaVendas extends javax.swing.JFrame {
         txtCodigo.setText("");
         txtProduto.setText("");
         txtPreco.setText("");
-        txtQtd.setText("");
-        
     }
-    
+
     public void atualizarTotal() {
         total = 0;
         for (Produto p : produtos) {
@@ -494,10 +497,6 @@ public class TelaVendas extends javax.swing.JFrame {
         Validador.limparMensagens();
     }//GEN-LAST:event_btnPesqCliActionPerformed
 
-    private void txtQtdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtQtdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtQtdActionPerformed
-
     private void btnPesqProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesqProActionPerformed
         // TODO add your handling code here:
         Validador.validar(txtCodigo);
@@ -508,7 +507,7 @@ public class TelaVendas extends javax.swing.JFrame {
             if (item.isEmpty()) {
                 JOptionPane.showMessageDialog(rootPane, "Nenhum produto encontrado");
                 produto = null;
-                txtQtd.setText("");
+                txtQtd.setValue(0);
                 txtProduto.setText("");
                 txtPreco.setText("");
             } else {
@@ -518,7 +517,10 @@ public class TelaVendas extends javax.swing.JFrame {
                 if (produto.getQtd() == 0) {
                     JOptionPane.showMessageDialog(rootPane, "Produto sem estoque");
                 } else {
-                    txtQtd.setText("");
+                    JFormattedTextField txt = ((JSpinner.DefaultEditor) txtQtd.getEditor()).getTextField();
+                    txt.setEditable(false);
+                    txtQtd.setEnabled(true);
+                    txtQtd.setValue(1);
                     txtProduto.setText(produto.getProduto());
                     txtPreco.setText("R$" + String.valueOf(produto.getPreco()));
                 }
@@ -564,7 +566,7 @@ public class TelaVendas extends javax.swing.JFrame {
 
     private void btnAdd1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdd1ActionPerformed
         // TODO add your handling code here:
-        Validador.validar(txtQtd);
+//        Validador.validar(txtQtd);
         Validador.validarProduto(produto);
         if (Validador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
@@ -574,15 +576,15 @@ public class TelaVendas extends javax.swing.JFrame {
                 for (Produto p : produtos) {
                     if (produto.getId() == p.getId()) {
                         possui = true;
-                        if (Integer.parseInt(txtQtd.getText()) != p.getQtd()) {
-                            p.setQtd(Integer.parseInt(txtQtd.getText()));
+                        if (Integer.parseInt(txtQtd.getValue().toString()) != p.getQtd()) {
+                            p.setQtd(Integer.parseInt(txtQtd.getValue().toString()));
                             break;
                         }
                     }
                 }
             }
             if (!possui) {
-                Produto p = new Produto(produto.getId(), produto.getMarca(), produto.getProduto(), produto.getPreco(), Integer.parseInt(txtQtd.getText()));
+                Produto p = new Produto(produto.getId(), produto.getMarca(), produto.getProduto(), produto.getPreco(), Integer.parseInt(txtQtd.getValue().toString()));
                 produtos.add(p);
             }
             DefaultTableModel modeloTabela = (DefaultTableModel) tblItens.getModel();
@@ -620,25 +622,6 @@ public class TelaVendas extends javax.swing.JFrame {
         atualizarTotal();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void txtQtdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtdKeyTyped
-        char c = evt.getKeyChar();
-        if (((c < '0') || (c > '9')) && (c != KeyEvent.VK_BACK_SPACE)) {
-            evt.consume();
-        }
-        String qtd = txtQtd.getText() + c; // Adiciona o caractere digitado ao texto atual
-        try {
-            int qtdInt = Integer.parseInt(qtd);
-            if (qtdInt > produto.getQtd()) {
-                txtQtd.setText(String.valueOf(produto.getQtd()));
-                evt.consume();
-            }
-        } catch (NumberFormatException e) {
-            // Não faz nada se não for possível converter para um número
-        }
-        // Consumir o evento após realizar todas as operações necessárias
-
-    }//GEN-LAST:event_txtQtdKeyTyped
-
     private void btnSelecionar(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionar
         // TODO add your handling code here:
         DefaultTableModel modeloTabela = (DefaultTableModel) tblItens.getModel();
@@ -652,7 +635,7 @@ public class TelaVendas extends javax.swing.JFrame {
             txtCodigo.setText(String.valueOf(produto.getId()));
             txtProduto.setText(produto.getProduto());
             txtPreco.setText("R$" + String.valueOf(produto.getPreco()));
-            txtQtd.setText(String.valueOf(modeloTabela.getValueAt(linhaSelecionada, 3)));
+            txtQtd.setValue(modeloTabela.getValueAt(linhaSelecionada, 3));
         } else {
             JOptionPane.showMessageDialog(rootPane, "Nenhum produto selecionado");
         }
@@ -678,6 +661,20 @@ public class TelaVendas extends javax.swing.JFrame {
         }
         Validador.limparMensagens();
     }//GEN-LAST:event_btnFinalizarActionPerformed
+
+    private void txtQtdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtQtdKeyTyped
+    }//GEN-LAST:event_txtQtdKeyTyped
+
+    private void txtQtdStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_txtQtdStateChanged
+        // TODO add your handling code here:
+        int novoValor = (int) txtQtd.getValue();
+        if (novoValor <= 0) {
+            txtQtd.setValue(1);
+        }
+        if (novoValor > produto.getQtd()) {
+            txtQtd.setValue(produto.getQtd());
+        }
+    }//GEN-LAST:event_txtQtdStateChanged
 
     /**
      * @param args the command line arguments
@@ -744,7 +741,11 @@ public class TelaVendas extends javax.swing.JFrame {
     private javax.swing.JTextField txtIdC;
     private javax.swing.JTextField txtPreco;
     private javax.swing.JTextField txtProduto;
-    private javax.swing.JTextField txtQtd;
+    private javax.swing.JSpinner txtQtd;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
+
+    private SpinnerNumberModel SpinnerNumberModel(int i, int i0, int qtd, int i1) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

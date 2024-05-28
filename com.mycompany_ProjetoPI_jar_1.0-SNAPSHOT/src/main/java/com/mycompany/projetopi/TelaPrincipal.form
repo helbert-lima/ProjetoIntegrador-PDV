@@ -23,10 +23,10 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="18" max="32767" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,19 +59,19 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
+                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="102" attributes="0">
                           <Component id="btnCliente" min="-2" pref="216" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnVenda" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Component id="btnProduto" min="-2" pref="216" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" attributes="0">
+                          <Component id="btnVenda" min="-2" pref="216" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnRelatorio" pref="216" max="32767" attributes="0"/>
+                          <Component id="btnRelatorio" max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="16" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -81,12 +81,12 @@
                   <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnCliente" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="btnVenda" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
+                      <Component id="btnProduto" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnRelatorio" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
-                      <Component id="btnProduto" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
+                      <Component id="btnVenda" alignment="3" min="-2" pref="73" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="43" max="32767" attributes="0"/>
               </Group>
@@ -108,7 +108,7 @@
         <Component class="javax.swing.JButton" name="btnVenda">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/produto icon.png"/>
+              <Image iconType="3" name="/venda icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Efetuar Venda"/>
           </Properties>
@@ -119,7 +119,7 @@
         <Component class="javax.swing.JButton" name="btnProduto">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/cliente icon.png"/>
+              <Image iconType="3" name="/produto icon.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Cadastro Produto"/>
           </Properties>
@@ -130,7 +130,7 @@
         <Component class="javax.swing.JButton" name="btnRelatorio">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/produto icon.png"/>
+              <Image iconType="3" name="/relatorio (2).png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Relat&#xf3;rio de Vendas"/>
           </Properties>

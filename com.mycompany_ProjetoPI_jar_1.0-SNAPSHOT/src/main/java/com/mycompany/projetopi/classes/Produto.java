@@ -22,6 +22,11 @@ public class Produto {
         this.Id = Id;
     }
 
+    public Produto(int qtd, int Ativo) {
+        this.qtd = qtd;
+        this.Ativo = Ativo;
+    }
+    
     @Override
     public String toString() {
         return Produto;
