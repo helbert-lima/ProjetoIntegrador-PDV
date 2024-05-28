@@ -484,31 +484,36 @@ public class CadastroCliente extends javax.swing.JFrame {
         if (Validador.hasErro()) {
             JOptionPane.showMessageDialog(rootPane, Validador.exibirMensagens());
         } else {
-            String nome = txtNome.getText();
-            String email = txtEmail.getText();
-            java.util.Date dataSelecionada = txtData.getDate();
-            Date dtNasc = new Date(dataSelecionada.getTime());
-            String CPF = txtCPF.getText().replaceAll("[^0-9]", "");
-            String tel = txtTel.getText();
-            int ativo = 1;
-            int sexo = -1;
-            if (radioM.isSelected()) {
-                sexo = 0;
-            }
-            if (radioF.isSelected()) {
-                sexo = 1;
-            }
-            if (radioFM.isSelected()) {
-                sexo = 2;
-            }
-
-            Cliente objCadastrar = new Cliente(nome, email, dtNasc, CPF, tel, sexo, ativo);
-            boolean retornoBanco = ClienteDAO.salvar(objCadastrar);
-            if (retornoBanco) {
-                JOptionPane.showMessageDialog(rootPane, "Cliente cadastrado com sucesso!");
-                limparCampos();
+            ArrayList<Cliente> verificaCPF = ClienteDAO.listar(2, txtCPF.getText().replaceAll("[^0-9]", ""));
+            if (!verificaCPF.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "CPF já cadastrado");
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Falha ao cadastrar");
+                String nome = txtNome.getText();
+                String email = txtEmail.getText();
+                java.util.Date dataSelecionada = txtData.getDate();
+                Date dtNasc = new Date(dataSelecionada.getTime());
+                String CPF = txtCPF.getText().replaceAll("[^0-9]", "");
+                String tel = txtTel.getText();
+                int ativo = 1;
+                int sexo = -1;
+                if (radioM.isSelected()) {
+                    sexo = 0;
+                }
+                if (radioF.isSelected()) {
+                    sexo = 1;
+                }
+                if (radioFM.isSelected()) {
+                    sexo = 2;
+                }
+
+                Cliente objCadastrar = new Cliente(nome, email, dtNasc, CPF, tel, sexo, ativo);
+                boolean retornoBanco = ClienteDAO.salvar(objCadastrar);
+                if (retornoBanco) {
+                    JOptionPane.showMessageDialog(rootPane, "Cliente cadastrado com sucesso!");
+                    limparCampos();
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Falha ao cadastrar");
+                }
             }
         }
 

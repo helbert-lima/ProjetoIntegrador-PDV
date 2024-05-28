@@ -31,6 +31,12 @@ public class VendaProdutoDAO {
     static String login = "root";
     static String senha = "p4$$w0rd";
 
+    /**
+     * Metodo utilizado para listar os produtos de n Vendas
+     *
+     * @param ids Recebe um Array com o id das Vendas
+     * @return Retorna um Array com todos os produtos das Vendas
+     */
     public static ArrayList<VendaProduto> listar(ArrayList<Integer> ids) {
         ArrayList<VendaProduto> listaRetorno = new ArrayList<>();
         Connection conexao = null;

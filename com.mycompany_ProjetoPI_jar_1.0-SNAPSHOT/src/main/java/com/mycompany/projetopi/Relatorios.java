@@ -315,34 +315,45 @@ public class Relatorios extends javax.swing.JFrame {
             dataSelecionada = txtDataF.getDate();
             Date fim = new Date(dataSelecionada.getTime());
             ArrayList<Venda> listaVenda = VendaDAO.listar(inicio, fim);
-            lista = listaVenda;
-            ArrayList<Integer> listaIds = new ArrayList<>();
-            for (Venda v : listaVenda) {
-                listaIds.add(v.getId());
-            }
-            ArrayList<VendaProduto> listaProduto = VendaProdutoDAO.listar(listaIds);
-            DefaultTableModel modeloTabela = (DefaultTableModel) tblVendas.getModel();
-            modeloTabela.setRowCount(0);
-            for (Venda v : listaVenda) {
-                modeloTabela.addRow(new Object[]{
-                    v.getId(),
-                    v.getCliente(),
-                    "R$" + v.getValor(),
-                    v.getData()
-                });
-            }
-            DefaultTableModel modeloTabela2 = (DefaultTableModel) tblProduto.getModel();
-            modeloTabela2.setRowCount(0);
-            for (VendaProduto vp : listaProduto) {
-                modeloTabela2.addRow(new Object[]{
-                    vp.getProduto().getId(),
-                    vp.getProduto(),
-                    vp.getQtd(),
-                    "R$"+vp.getTotal()
-                });
+            if (listaVenda.isEmpty()) {
+                JOptionPane.showMessageDialog(rootPane, "Nenhuma venda no periodo");
+                lista = null;
+                DefaultTableModel modeloTabela = (DefaultTableModel) tblVendas.getModel();
+                modeloTabela.setRowCount(0);
+                DefaultTableModel modeloTabela2 = (DefaultTableModel) tblProduto.getModel();
+                modeloTabela2.setRowCount(0);
+                total = 0;
+                txtTotal.setText("R$0.0");
+            } else {
+                lista = listaVenda;
+                ArrayList<Integer> listaIds = new ArrayList<>();
+                for (Venda v : listaVenda) {
+                    listaIds.add(v.getId());
+                }
+                ArrayList<VendaProduto> listaProduto = VendaProdutoDAO.listar(listaIds);
+                DefaultTableModel modeloTabela = (DefaultTableModel) tblVendas.getModel();
+                modeloTabela.setRowCount(0);
+                for (Venda v : listaVenda) {
+                    modeloTabela.addRow(new Object[]{
+                        v.getId(),
+                        v.getCliente(),
+                        "R$" + v.getValor(),
+                        v.getData()
+                    });
+                }
+                DefaultTableModel modeloTabela2 = (DefaultTableModel) tblProduto.getModel();
+                modeloTabela2.setRowCount(0);
+                for (VendaProduto vp : listaProduto) {
+                    modeloTabela2.addRow(new Object[]{
+                        vp.getProduto().getId(),
+                        vp.getProduto(),
+                        vp.getQtd(),
+                        "R$" + vp.getTotal()
+                    });
 
+                }
+                atualizarTotal();
             }
-            atualizarTotal();
         }
         Validador.limparMensagens();
     }//GEN-LAST:event_btnPesqActionPerformed

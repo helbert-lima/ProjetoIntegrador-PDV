@@ -26,6 +26,12 @@ public class ProdutoDAO {
     static String login = "root";
     static String senha = "p4$$w0rd";
 
+    /**
+     * Metodo utilizado para cadastrar um produto no banco de dados
+     *
+     * @param obj Recebe um objeto do tipo Produto
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean salvar(Produto obj) {
         boolean retorno = false;
         Connection conexao = null;
@@ -66,6 +72,13 @@ public class ProdutoDAO {
         return retorno;
     }
 
+    /**
+     * Metodo utilizado para atualizar a quantidade dos produtos após realizar
+     * uma venda
+     *
+     * @param listo Recebe um ArrayList do tipo Produto
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean atualizarQtd(ArrayList<Produto> lista) {
         boolean retorno = false;
         Connection conexao = null;
@@ -78,10 +91,10 @@ public class ProdutoDAO {
                     "UPDATE Produto SET Qtd =  Qtd - ? WHERE Id = ?"
             );
             int linhasAfetadas = 0;
-            for(Produto p : lista){
-            instrucaoSQL.setInt(1, p.getQtd());
-            instrucaoSQL.setInt(2, p.getId());
-            linhasAfetadas = instrucaoSQL.executeUpdate();
+            for (Produto p : lista) {
+                instrucaoSQL.setInt(1, p.getQtd());
+                instrucaoSQL.setInt(2, p.getId());
+                linhasAfetadas = instrucaoSQL.executeUpdate();
             }
             if (linhasAfetadas > 0) {
                 retorno = true;
@@ -104,6 +117,12 @@ public class ProdutoDAO {
         return retorno;
     }
 
+    /**
+     * Metodo utilizado para alterar um produto no banco de dados
+     *
+     * @param obj Recebe um objeto do tipo Produto
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean alterar(Produto obj) {
         boolean retorno = false;
         Connection conexao = null;
@@ -145,7 +164,13 @@ public class ProdutoDAO {
 
         return retorno;
     }
-
+        /**
+     * Metodo utilizado para listar os produtos
+     *
+     * @param index Recebe o index do ComboBox como parametro de pesquisa
+     * @param busca Recebe uma string para realizar a pesquisa
+     * @return retorna um Array com o resultado da busca
+     */
     public static ArrayList<Produto> listar(int index, String busca) {
         ArrayList<Produto> listaRetorno = new ArrayList<>();
         Connection conexao = null;

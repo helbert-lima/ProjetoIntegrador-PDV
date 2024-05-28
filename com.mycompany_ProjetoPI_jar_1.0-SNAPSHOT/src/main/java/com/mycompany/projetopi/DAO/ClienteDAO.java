@@ -25,6 +25,12 @@ public class ClienteDAO {
     static String login = "root";
     static String senha = "p4$$w0rd";
 
+    /**
+     * Metodo utilizado para cadastrar um cliente no banco de dados
+     *
+     * @param obj Recebe um objeto do tipo Cliente
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean salvar(Cliente obj) {
         boolean retorno = false;
         Connection conexao = null;
@@ -65,7 +71,13 @@ public class ClienteDAO {
 
         return retorno;
     }
-    
+
+    /**
+     * Metodo utilizado para alterar um cliente no banco de dados
+     *
+     * @param obj Recebe um objeto do tipo Cliente
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean alterar(Cliente obj) {
         boolean retorno = false;
         Connection conexao = null;
@@ -109,6 +121,13 @@ public class ClienteDAO {
         return retorno;
     }
 
+    /**
+     * Metodo utilizado para listar os clientes
+     *
+     * @param index Recebe o index do ComboBox como parametro de pesquisa
+     * @param busca Recebe uma string para realizar a pesquisa
+     * @return retorna um Array com o resultado da pesquisa
+     */
     public static ArrayList<Cliente> listar(int index, String busca) {
         ArrayList<Cliente> listaRetorno = new ArrayList<>();
         Connection conexao = null;
@@ -133,7 +152,7 @@ public class ClienteDAO {
                 instrucaoSQL = conexao.prepareStatement(
                         "SELECT * FROM Cliente WHERE CPF = ? AND  Ativo = 1"
                 );
-                instrucaoSQL.setString(1,busca);
+                instrucaoSQL.setString(1, busca);
             }
 
             rs = instrucaoSQL.executeQuery();

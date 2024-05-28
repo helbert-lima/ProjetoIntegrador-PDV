@@ -54,7 +54,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
 
         btnProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/produto icon.png"))); // NOI18N
-        btnProduto.setText("Cadastro Produto");
+        btnProduto.setText("Cadastrar Produto");
         btnProduto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnProdutoActionPerformed(evt);

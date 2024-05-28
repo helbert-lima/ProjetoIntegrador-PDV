@@ -13,18 +13,23 @@ import com.mycompany.projetopi.classes.Cliente;
 import com.mycompany.projetopi.classes.Marca;
 import com.mycompany.projetopi.classes.Produto;
 import com.mycompany.projetopi.utils.Validador;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JComboBox;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -226,11 +231,11 @@ public class CadastroProduto extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Id", "Marca", "Categoria", "Produto", "Preço", "Qtde"
+                "", "Id", "Marca", "Categoria", "Produto", "Preço", "Qtde"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -239,10 +244,12 @@ public class CadastroProduto extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblBusca);
         if (tblBusca.getColumnModel().getColumnCount() > 0) {
-            tblBusca.getColumnModel().getColumn(0).setPreferredWidth(25);
-            tblBusca.getColumnModel().getColumn(1).setPreferredWidth(70);
-            tblBusca.getColumnModel().getColumn(4).setPreferredWidth(30);
+            tblBusca.getColumnModel().getColumn(0).setResizable(false);
+            tblBusca.getColumnModel().getColumn(0).setPreferredWidth(1);
+            tblBusca.getColumnModel().getColumn(1).setPreferredWidth(25);
+            tblBusca.getColumnModel().getColumn(2).setPreferredWidth(70);
             tblBusca.getColumnModel().getColumn(5).setPreferredWidth(30);
+            tblBusca.getColumnModel().getColumn(6).setPreferredWidth(30);
         }
 
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -467,12 +474,11 @@ public class CadastroProduto extends javax.swing.JFrame {
                     .addComponent(cbbCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbbMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ckbAtivo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(27, 27, 27)
+                        .addGap(15, 15, 15)
                         .addComponent(btnSelecionaP, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1135,19 +1141,40 @@ public class CadastroProduto extends javax.swing.JFrame {
         ArrayList<Produto> listaProduto = ProdutoDAO.listar(cbbBuscarP.getSelectedIndex(), txtBuscar.getText());
         DefaultTableModel modeloTabela = (DefaultTableModel) tblBusca.getModel();
         modeloTabela.setRowCount(0);
-        for (Produto item : listaProduto) {
-            modeloTabela.addRow(new Object[]{
-                item.getId(),
-                item.getMarca(),
-                item.getCategoria(),
-                item.getProduto(),
-                item.getPreco(),
-                item.getQtd()
-            });
 
+        tblBusca.getColumnModel().getColumn(0).setCellRenderer(new CellRenderer());
+
+        for (Produto produto : listaProduto) {
+            modeloTabela.addRow(new Object[]{
+                "",
+                produto.getId(),
+                produto.getMarca(),
+                produto.getCategoria(),
+                produto.getProduto(),
+                produto.getPreco(),
+                produto.getQtd()
+            });
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
+    class CellRenderer extends DefaultTableCellRenderer {
 
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            int quantidade = (int) table.getValueAt(row, 6);
+            Color cor = Color.WHITE;
+
+            if (quantidade <= 10) {
+                cor = Color.RED;
+            }else if (quantidade <= 30) {
+                cor = Color.YELLOW;
+            } else {
+                cor = Color.GREEN;
+            }
+            c.setBackground(cor);
+            return c;
+        }
+    }
     private void cbbCategoriaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_cbbCategoriaAncestorAdded
         // TODO add your handling code here:
         if (atualizarC) {
@@ -1171,9 +1198,9 @@ public class CadastroProduto extends javax.swing.JFrame {
         int linhaSelecionada = tblBusca.getSelectedRow();
 
         if (linhaSelecionada >= 0) {
-            txtIdP.setText(modeloProduto.getValueAt(linhaSelecionada, 0).toString());
-            Marca marca = (Marca) modeloProduto.getValueAt(linhaSelecionada, 1);
-            ArrayList<Marca> listaMarcas = MarcaDAO.listarN(0, "", marca.getId());
+            txtIdP.setText(modeloProduto.getValueAt(linhaSelecionada, 1).toString());
+            Marca marca = (Marca) modeloProduto.getValueAt(linhaSelecionada, 2);
+            ArrayList<Marca> listaMarcas = MarcaDAO.listarN("", marca.getId());
             cbbMarca.removeAllItems();
             for (Marca item : listaMarcas) {
                 if (item.getId() == marca.getId()) {
@@ -1182,8 +1209,8 @@ public class CadastroProduto extends javax.swing.JFrame {
                 cbbMarca.addItem(item);
             }
             cbbMarca.setSelectedItem(marca);
-            Categoria categoria = (Categoria) modeloProduto.getValueAt(linhaSelecionada, 2);
-            ArrayList<Categoria> listaCategorias = CategoriaDAO.listarN(0, "",categoria.getId());
+            Categoria categoria = (Categoria) modeloProduto.getValueAt(linhaSelecionada, 3);
+            ArrayList<Categoria> listaCategorias = CategoriaDAO.listarN("", categoria.getId());
             cbbCategoria.removeAllItems();
             for (Categoria item : listaCategorias) {
                 if (item.getId() == categoria.getId()) {
@@ -1192,9 +1219,9 @@ public class CadastroProduto extends javax.swing.JFrame {
                 cbbCategoria.addItem(item);
             }
             cbbCategoria.setSelectedItem(categoria);
-            txtProduto.setText(modeloProduto.getValueAt(linhaSelecionada, 3).toString());
-            txtPreco.setText(modeloProduto.getValueAt(linhaSelecionada, 4).toString());
-            txtQtd.setText(modeloProduto.getValueAt(linhaSelecionada, 5).toString());
+            txtProduto.setText(modeloProduto.getValueAt(linhaSelecionada, 4).toString());
+            txtPreco.setText(modeloProduto.getValueAt(linhaSelecionada, 5).toString());
+            txtQtd.setText(modeloProduto.getValueAt(linhaSelecionada, 6).toString());
             btnAlterar.setEnabled(true);
             btnCadastrar.setEnabled(false);
             habilitarCampos();

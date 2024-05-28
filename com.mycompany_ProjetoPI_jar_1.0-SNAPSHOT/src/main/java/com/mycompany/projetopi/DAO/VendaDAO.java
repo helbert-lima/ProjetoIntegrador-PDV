@@ -28,6 +28,13 @@ public class VendaDAO {
     static String login = "root";
     static String senha = "p4$$w0rd";
 
+    /**
+     * Metodo utilizado para cadastrar uma Venda no banco de dados
+     *
+     * @param obj Recebe um objeto do tipo Venda
+     * @param carrinho Recebe um Array do tipo Produto
+     * @return boolean indicando true: sucesso , false: falha
+     */
     public static boolean salvar(Venda obj, ArrayList<Produto> carrinho) {
         boolean retorno = false;
         Connection conexao = null;
@@ -90,7 +97,13 @@ public class VendaDAO {
 
         return retorno;
     }
-        public static ArrayList<Venda> listar(Date inicio, Date fim) {
+    /**
+     * Metodo utilizado para listar as Vendas
+     *@param inicio Recebe um Date como parametro de busca
+     *@param fim Recebe um Date como parametro de busca
+     * @return Retorna um Array com todas as venda do periodo
+     */
+    public static ArrayList<Venda> listar(Date inicio, Date fim) {
         ArrayList<Venda> listaRetorno = new ArrayList<>();
         Connection conexao = null;
         ResultSet rs = null;
@@ -98,12 +111,12 @@ public class VendaDAO {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             conexao = DriverManager.getConnection(URL, login, senha);
-            
+
             PreparedStatement instrucaoSQL = conexao.prepareStatement(
                     "SELECT v.*, c.Nome FROM Venda v JOIN Cliente c ON(v.Id_Cliente = c.Id) WHERE Dt BETWEEN ? AND ?;"
             );
-            instrucaoSQL.setDate(1,inicio);
-            instrucaoSQL.setDate(2,fim);
+            instrucaoSQL.setDate(1, inicio);
+            instrucaoSQL.setDate(2, fim);
             rs = instrucaoSQL.executeQuery();
             if (rs != null) {
                 while (rs.next()) {
@@ -117,7 +130,7 @@ public class VendaDAO {
                     listaRetorno.add(item);
                 }
             }
-           
+
         } catch (Exception e) {
             listaRetorno = null;
         } finally {
